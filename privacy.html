@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ochrana súkromia — LootDrop</title>
+  <meta name="description" content="Zásady ochrany osobných údajov aplikácie LootDrop v súlade s GDPR." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><span>🗺️</span> LootDrop</a>
+    <div class="nav-links">
+      <a href="index.html#ako-to-funguje">Ako to funguje</a>
+      <a href="index.html#funkcie">Funkcie</a>
+      <a href="index.html#blog">Blog</a>
+    </div>
+    <a href="index.html#stiahnut" class="btn btn--primary">Stiahnuť</a>
+  </div>
+</nav>
+
+<div class="article-hero">
+  <div class="container">
+    <a href="index.html" class="article-back">← Späť na úvodnú stránku</a>
+    <div class="article-tag">Právne</div>
+    <h1>Ochrana súkromia</h1>
+    <p class="article-meta">Posledná aktualizácia: apríl 2026</p>
+  </div>
+</div>
+
+<article class="article-body container">
+
+  <p>Tieto Zásady ochrany osobných údajov vysvetľujú, aké údaje aplikácia LootDrop zbiera, prečo ich zbiera a aké máte práva v súlade s GDPR.</p>
+
+  <h2>1. Prevádzkovateľ osobných údajov</h2>
+  <p>Prevádzkovateľom aplikácie LootDrop je fyzická osoba – vývojár aplikácie (ďalej len „Prevádzkovateľ"). Kontaktný e-mail: <a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple)">lootdrop.app@gmail.com</a></p>
+  <p>Na spracúvanie osobných údajov sa vzťahuje Nariadenie GDPR (EÚ) 2016/679.</p>
+
+  <h2>2. Aké údaje zbierame</h2>
+  <ul>
+    <li><strong>E-mailová adresa</strong> – pri registrácii účtu</li>
+    <li><strong>Meno (voliteľné)</strong> – ak ho zadáte do profilu</li>
+    <li><strong>Poloha zariadenia</strong> – nevyhnutná pre hernú mechaniku (zobrazenie truhlíc na mape, community mapa)</li>
+    <li><strong>Herné dáta</strong> – počet otvorených truhlíc, XP, dukáty, história otvorení, denné série</li>
+    <li><strong>Identifikátor zariadenia (UID Firebase)</strong> – pre správu účtu</li>
+    <li><strong>IP adresa</strong> – zaznamenávaná platformou Firebase pri autentifikácii</li>
+  </ul>
+
+  <h2>3. Účel a právny základ spracúvania</h2>
+  <ul>
+    <li>Poskytovanie herných funkcií (plnenie zmluvy – čl. 6 ods. 1 písm. b GDPR)</li>
+    <li>Zobrazenie polohy ostatných hráčov na mape – len s vaším súhlasom (čl. 6 ods. 1 písm. a GDPR)</li>
+    <li>Bezpečnosť a predchádzanie podvodom – oprávnený záujem (čl. 6 ods. 1 písm. f GDPR)</li>
+  </ul>
+  <p>Polohu spracúvame iba počas aktívneho používania aplikácie. Nikdy ju neukladáme bez vášho súhlasu.</p>
+
+  <h2>4. Príjemcovia údajov</h2>
+  <p>Vaše údaje sú uložené v cloudovej infraštruktúre Google Firebase (Firestore, Firebase Auth). Firebase je certifikovaný podľa ISO 27001 a spĺňa požiadavky GDPR. Dáta sú uložené v serveroch v EÚ (Frankfurt, Belgicko).</p>
+  <p>Údaje nepredávame ani neposkytujeme tretím stranám na marketingové účely.</p>
+
+  <h2>5. Doba uchovávania údajov</h2>
+  <ul>
+    <li>Herné dáta (XP, história): po dobu existencie vášho účtu</li>
+    <li>Poloha hráčov (community mapa): automaticky vymazaná do 5 minút od opustenia aplikácie</li>
+    <li>E-mailová adresa: do vymazania účtu</li>
+  </ul>
+  <p>Po vymazaní účtu sú všetky vaše osobné údaje nenávratne odstránené do 30 dní.</p>
+
+  <h2>6. Vaše práva (GDPR)</h2>
+  <p>Máte právo:</p>
+  <ul>
+    <li>Prístupu k vašim údajom (čl. 15 GDPR)</li>
+    <li>Opravy nepresných údajov (čl. 16 GDPR)</li>
+    <li>Vymazania „právo byť zabudnutý" (čl. 17 GDPR) – dostupné priamo v aplikácii: Profil → Vymazať účet</li>
+    <li>Obmedzenia spracúvania (čl. 18 GDPR)</li>
+    <li>Prenosnosti údajov (čl. 20 GDPR)</li>
+    <li>Námietky (čl. 21 GDPR)</li>
+    <li>Odvolania súhlasu (čl. 7 ods. 3 GDPR)</li>
+  </ul>
+  <p>Pre uplatnenie práv kontaktujte: <a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple)">lootdrop.app@gmail.com</a></p>
+  <p>Máte tiež právo podať sťažnosť na Úrad na ochranu osobných údajov SR (<a href="https://dataprotection.gov.sk" style="color:var(--purple)" target="_blank">dataprotection.gov.sk</a>).</p>
+
+  <h2>7. Zabezpečenie údajov</h2>
+  <p>Všetka komunikácia je šifrovaná pomocou TLS 1.3. Prístup k databáze je chránený Firebase Security Rules – každý používateľ má prístup iba k vlastným dátam. Heslá sa neukladajú – autentifikácia prebieha cez Firebase Auth (Google/Apple OAuth alebo e-mail s hashovaným heslom).</p>
+
+  <h2>8. Deti</h2>
+  <p>Aplikácia nie je určená pre osoby mladšie ako 13 rokov. Ak ste rodič a zistíte, že vaše dieťa vytvorilo účet, kontaktujte nás a účet okamžite vymažeme.</p>
+
+  <h2>9. Zmeny zásad</h2>
+  <p>O podstatných zmenách vás budeme informovať prostredníctvom upozornenia v aplikácii. Aktuálna verzia je vždy dostupná na tejto stránke a v sekcii Profil → Ochrana súkromia.</p>
+
+  <h2>10. Kontakt</h2>
+  <p><a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple)">lootdrop.app@gmail.com</a></p>
+
+</article>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-logo">🗺️ LootDrop</div>
+    <div class="footer-links">
+      <a href="privacy.html">Ochrana súkromia</a>
+      <a href="terms.html">Podmienky použitia</a>
+    </div>
+    <div class="footer-copy">© 2026 LootDrop. Všetky práva vyhradené.</div>
+  </div>
+</footer>
+
+</body>
+</html>
