@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Živý rebríček hráčov — LootDrop</title>
+  <meta name="description" content="Aktuálne poradie najlepších lovcov truhlíc v LootDrope. Rebríček sa aktualizuje v reálnom čase." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🗺️</div>
+      <span class="logo-text">Loot<em>Drop</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#ako">Ako to funguje</a>
+      <a href="index.html#funkcie">Funkcie</a>
+      <a href="leaderboard.html">Liga</a>
+      <a href="index.html#blog">Blog</a>
+      <a href="privacy.html">Súkromie</a>
+    </div>
+    <a href="index.html#download" class="nav-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Store
+    </a>
+  </div>
+</nav>
+
+<div class="article-header">
+  <div class="wrap">
+    <a href="index.html" class="back-link">← Domov</a>
+    <div class="article-tag-label">Liga · Sezóna 1</div>
+    <h1>Živý rebríček hráčov</h1>
+    <p class="article-meta" id="lboard-updated">Načítavam...</p>
+  </div>
+</div>
+
+<div class="wrap" style="padding: 48px 24px 96px;">
+
+  <!-- Podium top 3 -->
+  <div class="podium" id="podium">
+    <div class="podium-loading">
+      <div class="lboard-spinner"></div>
+      <p>Načítavam rebríček...</p>
+    </div>
+  </div>
+
+  <!-- Full table -->
+  <div class="lboard-table-wrap" id="lboard-table" style="display:none;">
+    <div class="lboard-table-head">
+      <span class="lboard-col-rank">#</span>
+      <span class="lboard-col-player">Hráč</span>
+      <span class="lboard-col-num">Level</span>
+      <span class="lboard-col-num">XP</span>
+      <span class="lboard-col-num hide-sm">Truhlice</span>
+      <span class="lboard-col-num hide-sm">Séria</span>
+    </div>
+    <div id="lboard-rows"></div>
+  </div>
+
+  <p class="lboard-note" id="lboard-note" style="display:none;">
+    Rebríček sa aktualizuje každých 5 minút. Dáta sú anonymizované — zobrazuje sa herný identifikátor, nie osobné meno.
+  </p>
+
+</div>
+
+<footer>
+  <div class="wrap footer-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🗺️</div>
+      <span class="logo-text">Loot<em>Drop</em></span>
+    </a>
+    <div class="footer-links">
+      <a href="privacy.html">Ochrana súkromia</a>
+      <a href="terms.html">Podmienky použitia</a>
+    </div>
+    <div class="footer-copy">© 2026 LootDrop</div>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp }        from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, collection, query, orderBy, limit, getDocs }
+  from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const cfg = {
+  apiKey:            "AIzaSyBuV124fHZ84PQRVrBuKUVcKoGMK-w_loA",
+  authDomain:        "lootdrop-35226.firebaseapp.com",
+  projectId:         "lootdrop-35226",
+  storageBucket:     "lootdrop-35226.firebasestorage.app",
+  messagingSenderId: "296546219570",
+  appId:             "1:296546219570:ios:28e69c6cbad73c7dd3ae2b",
+};
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+const PREFIXES = ['Lovec','Rytier','Mág','Ninja','Strážca','Vlk','Orel','Tieň','Búrka','Plameň','Kráľ','Drak'];
+function playerNick(uid) {
+  const sum = uid.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  const prefix = PREFIXES[sum % PREFIXES.length];
+  const suffix = uid.replace(/[^0-9]/g,'').slice(-3) || String(sum % 999).padStart(3,'0');
+  return prefix + '_' + suffix;
+}
+function fmtXP(n)  { return n >= 1000 ? (n/1000).toFixed(1) + 'k' : String(n); }
+function xpLv(xp)  { return Math.max(1, 1 + Math.floor(xp / 1000)); }
+
+const MEDALS = ['🥇','🥈','🥉'];
+
+// ── Mock fallback (shown if Firestore rules block public reads) ────────────────
+const MOCK = [
+  { uid:'a1b2c3d4e5', xp:18420, openedChests:214, streak:22 },
+  { uid:'f6g7h8i9j0', xp:15300, openedChests:178, streak:17 },
+  { uid:'k1l2m3n4o5', xp:12870, openedChests:151, streak:30 },
+  { uid:'p6q7r8s9t0', xp:10250, openedChests:124, streak:9  },
+  { uid:'u1v2w3x4y5', xp:9100,  openedChests:108, streak:14 },
+  { uid:'z6a7b8c9d0', xp:7850,  openedChests:94,  streak:6  },
+  { uid:'e1f2g3h4i5', xp:6620,  openedChests:81,  streak:11 },
+  { uid:'j6k7l8m9n0', xp:5410,  openedChests:68,  streak:3  },
+  { uid:'o1p2q3r4s5', xp:4200,  openedChests:55,  streak:7  },
+  { uid:'t6u7v8w9x0', xp:3100,  openedChests:41,  streak:2  },
+];
+
+// ── Render ─────────────────────────────────────────────────────────────────────
+function renderPodium(players) {
+  const podium = document.getElementById('podium');
+  const top3   = players.slice(0, 3);
+  // Podium order: 2nd, 1st, 3rd
+  const order  = [top3[1], top3[0], top3[2]].filter(Boolean);
+  const heights = top3[1] ? ['160px','200px','130px'] : ['200px'];
+  const orderIdx = top3[1] ? [1, 0, 2] : [0];
+
+  podium.innerHTML = `
+    <div class="podium-stage">
+      ${order.map((p, i) => {
+        const rankIdx = orderIdx[i];
+        const rank    = rankIdx + 1;
+        const h       = heights[i];
+        return `
+          <div class="podium-slot rank-${rank}">
+            <div class="podium-card">
+              <div class="podium-medal">${MEDALS[rankIdx] ?? ''}</div>
+              <div class="podium-nick">${playerNick(p.uid)}</div>
+              <div class="podium-xp">${fmtXP(p.xp)} XP</div>
+              <div class="podium-lv">Lv.${xpLv(p.xp)}</div>
+            </div>
+            <div class="podium-bar" style="height:${h}; --rank:${rank};"></div>
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function renderTable(players) {
+  const rows = document.getElementById('lboard-rows');
+  rows.innerHTML = players.map((p, i) => {
+    const rank = i + 1;
+    const medal = rank <= 3 ? `<span class="lboard-medal">${MEDALS[rank-1]}</span>` : '';
+    return `
+      <div class="lboard-row ${rank <= 3 ? 'lboard-row-top' : ''}">
+        <span class="lboard-col-rank">${medal}<span class="lboard-rank-num">${rank}</span></span>
+        <span class="lboard-col-player">
+          <span class="lboard-avatar">${playerNick(p.uid).slice(0,2).toUpperCase()}</span>
+          <span class="lboard-name">${playerNick(p.uid)}</span>
+        </span>
+        <span class="lboard-col-num"><span class="lboard-badge lv-badge">Lv.${xpLv(p.xp)}</span></span>
+        <span class="lboard-col-num lboard-xp">${fmtXP(p.xp)}</span>
+        <span class="lboard-col-num hide-sm lboard-muted">${p.openedChests ?? '—'}</span>
+        <span class="lboard-col-num hide-sm lboard-streak">🔥 ${p.streak ?? 0}</span>
+      </div>`;
+  }).join('');
+}
+
+async function load() {
+  let players;
+
+  try {
+    const app = initializeApp(cfg);
+    const db  = getFirestore(app);
+    const q   = query(collection(db, 'users'), orderBy('xp','desc'), limit(50));
+    const snap = await getDocs(q);
+    players = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+    if (players.length === 0) throw new Error('empty');
+  } catch (e) {
+    // Firestore not yet publicly readable — show mock data
+    players = MOCK;
+    document.getElementById('lboard-note').textContent =
+      'Zobrazujú sa ukážkové dáta. Živý rebríček bude dostupný po spustení hry.';
+  }
+
+  renderPodium(players);
+  renderTable(players);
+
+  document.getElementById('lboard-table').style.display = '';
+  document.getElementById('lboard-note').style.display  = '';
+  document.getElementById('lboard-updated').textContent =
+    'Aktualizované: ' + new Date().toLocaleTimeString('sk-SK', { hour:'2-digit', minute:'2-digit' });
+}
+
+load();
+</script>
+
+</body>
+</html>
