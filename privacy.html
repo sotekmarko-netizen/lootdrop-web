@@ -10,32 +10,39 @@
 <body>
 
 <nav>
-  <div class="container nav-inner">
-    <a href="index.html" class="nav-logo"><span>🗺️</span> LootDrop</a>
+  <div class="wrap nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🗺️</div>
+      <span class="logo-text">Loot<em>Drop</em></span>
+    </a>
     <div class="nav-links">
-      <a href="index.html#ako-to-funguje">Ako to funguje</a>
+      <a href="index.html#ako">Ako to funguje</a>
       <a href="index.html#funkcie">Funkcie</a>
       <a href="index.html#blog">Blog</a>
+      <a href="privacy.html">Súkromie</a>
     </div>
-    <a href="index.html#stiahnut" class="btn btn--primary">Stiahnuť</a>
+    <a href="index.html#download" class="nav-cta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Store
+    </a>
   </div>
 </nav>
 
-<div class="article-hero">
-  <div class="container">
-    <a href="index.html" class="article-back">← Späť na úvodnú stránku</a>
-    <div class="article-tag">Právne</div>
+<div class="article-header">
+  <div class="wrap">
+    <a href="index.html" class="back-link">← Domov</a>
+    <div class="article-tag-label">Právne</div>
     <h1>Ochrana súkromia</h1>
     <p class="article-meta">Posledná aktualizácia: apríl 2026</p>
   </div>
 </div>
 
-<article class="article-body container">
+<article class="article-content">
 
   <p>Tieto Zásady ochrany osobných údajov vysvetľujú, aké údaje aplikácia LootDrop zbiera, prečo ich zbiera a aké máte práva v súlade s GDPR.</p>
 
   <h2>1. Prevádzkovateľ osobných údajov</h2>
-  <p>Prevádzkovateľom aplikácie LootDrop je fyzická osoba – vývojár aplikácie (ďalej len „Prevádzkovateľ"). Kontaktný e-mail: <a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple)">lootdrop.app@gmail.com</a></p>
+  <p>Prevádzkovateľom aplikácie LootDrop je fyzická osoba – vývojár aplikácie. Kontaktný e-mail: <a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple-light)">lootdrop.app@gmail.com</a></p>
   <p>Na spracúvanie osobných údajov sa vzťahuje Nariadenie GDPR (EÚ) 2016/679.</p>
 
   <h2>2. Aké údaje zbierame</h2>
@@ -57,7 +64,7 @@
   <p>Polohu spracúvame iba počas aktívneho používania aplikácie. Nikdy ju neukladáme bez vášho súhlasu.</p>
 
   <h2>4. Príjemcovia údajov</h2>
-  <p>Vaše údaje sú uložené v cloudovej infraštruktúre Google Firebase (Firestore, Firebase Auth). Firebase je certifikovaný podľa ISO 27001 a spĺňa požiadavky GDPR. Dáta sú uložené v serveroch v EÚ (Frankfurt, Belgicko).</p>
+  <p>Vaše údaje sú uložené v cloudovej infraštruktúre Google Firebase (Firestore, Firebase Auth). Firebase je certifikovaný podľa ISO 27001 a spĺňa požiadavky GDPR. Dáta sú uložené na serveroch v EÚ (Frankfurt, Belgicko).</p>
   <p>Údaje nepredávame ani neposkytujeme tretím stranám na marketingové účely.</p>
 
   <h2>5. Doba uchovávania údajov</h2>
@@ -79,8 +86,8 @@
     <li>Námietky (čl. 21 GDPR)</li>
     <li>Odvolania súhlasu (čl. 7 ods. 3 GDPR)</li>
   </ul>
-  <p>Pre uplatnenie práv kontaktujte: <a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple)">lootdrop.app@gmail.com</a></p>
-  <p>Máte tiež právo podať sťažnosť na Úrad na ochranu osobných údajov SR (<a href="https://dataprotection.gov.sk" style="color:var(--purple)" target="_blank">dataprotection.gov.sk</a>).</p>
+  <p>Pre uplatnenie práv kontaktujte: <a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple-light)">lootdrop.app@gmail.com</a></p>
+  <p>Máte tiež právo podať sťažnosť na Úrad na ochranu osobných údajov SR (<a href="https://dataprotection.gov.sk" style="color:var(--purple-light)" target="_blank">dataprotection.gov.sk</a>).</p>
 
   <h2>7. Zabezpečenie údajov</h2>
   <p>Všetka komunikácia je šifrovaná pomocou TLS 1.3. Prístup k databáze je chránený Firebase Security Rules – každý používateľ má prístup iba k vlastným dátam. Heslá sa neukladajú – autentifikácia prebieha cez Firebase Auth (Google/Apple OAuth alebo e-mail s hashovaným heslom).</p>
@@ -92,18 +99,21 @@
   <p>O podstatných zmenách vás budeme informovať prostredníctvom upozornenia v aplikácii. Aktuálna verzia je vždy dostupná na tejto stránke a v sekcii Profil → Ochrana súkromia.</p>
 
   <h2>10. Kontakt</h2>
-  <p><a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple)">lootdrop.app@gmail.com</a></p>
+  <p><a href="mailto:lootdrop.app@gmail.com" style="color:var(--purple-light)">lootdrop.app@gmail.com</a></p>
 
 </article>
 
 <footer>
-  <div class="container footer-inner">
-    <div class="footer-logo">🗺️ LootDrop</div>
+  <div class="wrap footer-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🗺️</div>
+      <span class="logo-text">Loot<em>Drop</em></span>
+    </a>
     <div class="footer-links">
       <a href="privacy.html">Ochrana súkromia</a>
       <a href="terms.html">Podmienky použitia</a>
     </div>
-    <div class="footer-copy">© 2026 LootDrop. Všetky práva vyhradené.</div>
+    <div class="footer-copy">© 2026 LootDrop</div>
   </div>
 </footer>
 
